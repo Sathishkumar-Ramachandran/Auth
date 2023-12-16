@@ -4,7 +4,7 @@ const signupLogic = require('../../logics/v1/signupLogic.js');
 
 const signupRoute = express.Router();
 
-signupRoute.post('/signup', async (req, res) => {
+signupRoute.post('/createuser', async (req, res) => {
     const {email, password} = req.body;
 
     try {
