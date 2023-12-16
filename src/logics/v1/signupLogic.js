@@ -1,14 +1,17 @@
 const express = require('express');
 const argon = require('argon2');
 const { pool } = require("pg");
-const { password } = require('../../config/dbConnection');
+//const { password } = require('../../config/dbConnection');
 const { v4: uuidv4 } = require('uuid');
 
 
 const signupLogic = {
     hashPassword: async (password) => {
         try {
-            const hashedPassword = await argon2.hash(password);
+            const salt = await argon.generateSalt();
+            const hashedPassword = await argon.hash(password, { salt });
+            return { hashedPassword, salt };
+            
         }
         catch (error) {
             console.error('Error Hashing Password:', error);
@@ -19,8 +22,17 @@ const signupLogic = {
         const otp = Math.floor(100000 + Math.random() * 900000);
         return otp.toString()
     },
-    createUser: () => {
+    createUser: async (companyId, email, password) => {
         const userId = uuidv4();
+        try {
+            // Example: Insert user into a PostgreSQL database
+            const client = await pool.connect();
+            const result = await client.query('INSERT INTO users (companyId, email, password) VALUES ($1, $2, $3)', [companyId, email, password]);
+            console.log('User created successfully:', result.rows);
+        } catch (error) {
+            console.error('Error creating user:', error);
+            throw error;
+        }
         
     },
 }
