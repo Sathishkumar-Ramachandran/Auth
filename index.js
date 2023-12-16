@@ -10,7 +10,10 @@ const PORT = process.env.PORT || 10001;
 //v1 Imports
 const authRoutes = require('./src/routes/v1/loginRoute.js');
 const connectToDatabase = require('./src/services/v1/dbConnectionService.js');
+const signupRoutes = require('./src/routes/v1/signupRoute.js');
 
+
+//Middlewares
 
 app.use(BodyParser.urlencoded({ extended: false }));
 app.use(BodyParser.json());
@@ -19,6 +22,7 @@ app.use(morgan('dev'));
 connectToDatabase()
     .then((client) => {
         app.use("/api/v1/auth", authRoutes);
+        app.use("/api/v1/signup", signupRoutes);
         app.listen(PORT, () => {
             console.log(`Auth API is running on ${PORT}`);
         });
