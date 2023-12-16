@@ -28,4 +28,7 @@ signupRoute.post('/signup', async (req, res) => {
     catch {
 
     }
-})
+});
+
+
+module.exports = signupRoute;
