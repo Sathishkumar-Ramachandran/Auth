@@ -13,6 +13,7 @@ const connectToDatabase = require('./src/services/v1/dbConnectionService.js');
 const signupRoutes = require('./src/routes/v1/signupRoute.js');
 
 
+
 //Middlewares
 
 app.use(BodyParser.urlencoded({ extended: false }));
@@ -22,17 +23,6 @@ app.use(morgan('dev'));
 
 app.use("/api/v1/auth/", authRoutes);
 app.use("/api/v1/signup/", signupRoutes);
-
-
-//Database Connection
-// connectToDatabase()
-//     .then((client) => {
-//         const db = client.db('auth');
-//         app.listen(PORT, () => {
-//             console.log(`Auth API is running on ${PORT}`);
-//         });
-//     })
-
 
 connectToDatabase()
     .then((client) => {
@@ -45,7 +35,8 @@ connectToDatabase()
         let errorMessage = error.message;
         console.error(`Error connecting Auth Service ${errorMessage}`);
         process.exit(1);
-    })
+    });
+    
 
 
 

@@ -1,7 +1,8 @@
 const express = require('express');
 const argon = require('argon2');
-const { pool } = require("pg");
-//const { password } = require('../../config/dbConnection');
+
+
+const { pool } = require("../../config/dbConnection.js");
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -22,6 +23,9 @@ const signupLogic = {
         const otp = Math.floor(100000 + Math.random() * 900000);
         return otp.toString()
     },
+
+
+
     createUser: async (companyId, email, password) => {
         const userId = uuidv4();
         try {
@@ -32,7 +36,9 @@ const signupLogic = {
         } catch (error) {
             console.error('Error creating user:', error);
             throw error;
-        }
+        }    
         
     },
 }
+
+module.exports = signupLogic;
