@@ -31,11 +31,28 @@ signupRoute.post('/createuser', async (req, res) => {
             const hashPassword = await signupLogic.hashPassword(password);
             }
         }
-        catch (e) {
-            console.log("Internal Error Occured");
-            return res.status(500).json({ error: e.message })
+    catch (e) {
+        console.log("Internal Error Occured");
+        return res.status(500).json({ error: e.message })
+    }
+});
+
+signupRoute.get('/getuserOTP', async (req, res) => {
+    const {userOTP} = req.body;
+    try{
+        const result = await signupLogic.verifyOTP(userOTP);
+        if(!result){
+            throw "Invalid OTP";
             }
-        });
+        else{
+            return res.status(200).end()
+        }
+    }
+    catch(e){
+        return res.status(401).json({error: e.message})
+    }
+})
+                
 module.exports = signupRoute;
             
             

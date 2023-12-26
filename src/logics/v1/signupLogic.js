@@ -10,7 +10,6 @@ const signupLogic = {
             const salt = await argon.generateSalt();
             const hashedPassword = await argon.hash(password, { salt });
             return { hashedPassword, salt };
-            
         }
         catch (error) {
             console.error('Error Hashing Password:', error);
@@ -21,6 +20,7 @@ const signupLogic = {
         const otp = Math.floor(100000 + Math.random() * 900000);
         return otp.toString()
     },
+    
     createUser: async (email, hashedPassword) => {
         const userId = uuidv4();
         try {
