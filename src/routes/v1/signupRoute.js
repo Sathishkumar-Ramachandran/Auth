@@ -14,21 +14,29 @@ signupRoute.post('/createuser', async (req, res) => {
         }
         else {
             //Hash Password
+            let hashedPassword = await authLogic.hashPassword(password);
+            //Create User in Database
+            const newUser = await signupLogic.addNewUser(email, hashedPassword);
             try {
+                //generate otp
+                const otp = await signupLogic.generateOTP();
+                //send email with the OTP to the registered Email ID
+                await authLogic.sendOTPEmail(email, otp);
+                //return json object containing _id and generated OTP
+                return res.status(201).json({"OTP" : otp});
+            } catch (err) {
+                console.log("Error Sending Mail", err);
+                return res.status(503).json({ error: 'Mail Service is Down' });
+            }
             const hashPassword = await signupLogic.hashPassword(password);
             }
-            catch (error) {
-                console.error('Error During Hashing Password:', error);
-                res.status(500).json({ error: 'Internal Server Error' });
-            }
-            //write
-
         }
-    }
-    catch {
-
-    }
-});
-
-
+        catch (e) {
+            console.log("Internal Error Occured");
+            return res.status(500).json({ error: e.message })
+            }
+        });
 module.exports = signupRoute;
+            
+            
+

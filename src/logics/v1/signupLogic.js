@@ -1,6 +1,6 @@
 const express = require('express');
 const argon = require('argon2');
-const { pool } = require("pg");
+const { pool } = require("../../config/dbConnection");
 //const { password } = require('../../config/dbConnection');
 const { v4: uuidv4 } = require('uuid');
 
@@ -22,12 +22,12 @@ const signupLogic = {
         const otp = Math.floor(100000 + Math.random() * 900000);
         return otp.toString()
     },
-    createUser: async (companyId, email, password) => {
+    createUser: async (email, hashedPassword) => {
         const userId = uuidv4();
         try {
             // Example: Insert user into a PostgreSQL database
             const client = await pool.connect();
-            const result = await client.query('INSERT INTO users (companyId, email, password) VALUES ($1, $2, $3)', [companyId, email, password]);
+            const result = await client.query('INSERT INTO users (email, password) VALUES ($1, $2)', [email, hashedPassword]);
             console.log('User created successfully:', result.rows);
         } catch (error) {
             console.error('Error creating user:', error);
@@ -35,4 +35,14 @@ const signupLogic = {
         }
         
     },
+
+    sendMail : async (email, otp) => {
+        let mailOptions = {
+            from: 'no-reply@example.com',
+            to: '',
+
+    }
 }
+
+
+module.exports = signupLogic;

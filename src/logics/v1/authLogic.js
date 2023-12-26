@@ -6,7 +6,6 @@ const authLogic = {
     try {
       const userQuery = 'SELECT * FROM users WHERE email = $1';
       const userResult = await pool.query(userQuery, [email]);
-
       return userResult.rows.length > 0 ? userResult.rows[0] : null;
     } catch (error) {
       console.error('Error checking email:', error);
