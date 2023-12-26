@@ -1,7 +1,6 @@
 const express = require('express');
 const argon = require('argon2');
-const { pool } = require("../../config/dbConnection");
-//const { password } = require('../../config/dbConnection');
+const { pool } = require("../../config/dbConnection.js");
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -32,17 +31,9 @@ const signupLogic = {
         } catch (error) {
             console.error('Error creating user:', error);
             throw error;
-        }
+        }    
         
     },
 
-    sendMail : async (email, otp) => {
-        let mailOptions = {
-            from: 'no-reply@example.com',
-            to: '',
-
-    }
 }
-
-
 module.exports = signupLogic;

@@ -1,4 +1,4 @@
-const { pool } = require("pg");
+const { pool } = require("../../config/dbConnection.js");
 const argon2 = require('argon2');
 
 const authLogic = {
@@ -7,7 +7,9 @@ const authLogic = {
       const userQuery = 'SELECT * FROM users WHERE email = $1';
       const userResult = await pool.query(userQuery, [email]);
       return userResult.rows.length > 0 ? userResult.rows[0] : null;
-    } catch (error) {
+    } 
+    
+    catch (error) {
       console.error('Error checking email:', error);
       throw error;
     }
@@ -38,8 +40,8 @@ const authLogic = {
     try {
       const companyQuery = 'SELECT user_id, acl_array FROM companies WHERE company_id = $1';
       const companyResult = await pool.query(companyQuery, [companyId]);
-
       return companyResult.rows.length > 0 ? companyResult.rows[0] : null;
+
     } catch (error) {
       console.error('Error getting company:', error);
       throw error;
@@ -86,102 +88,3 @@ const authLogic = {
 };
 
 module.exports = authLogic;
-
-
-//const { pool } = require('./dbConnect'); // Assuming pool is exported from dbConnect
-// const { pool } = require("pg");
-// const argon = require('argon2');
-
-// const authLogic = {
-//   checkEmail: async (email) => {
-//     try {
-//       const userQuery = 'SELECT * FROM users WHERE email = $1';
-//       const userResult = await pool.query(userQuery, [email]);
-
-//       return userResult.rows.length > 0 ? userResult.rows[0] : null;
-//     } catch (error) {
-//       console.error('Error checking email:', error);
-//       throw error;
-//     }
-//   },
-//   hashPassword: async (password) => {
-//     try {
-//       const salt = await argon.generateSalt();
-//       const hashedPassword = await argon.hash(password, { salt });
-//       return { hashedPassword, salt };
-      
-//     }
-//     catch (error) {
-//       console.error(`Error hashing password ${error}`);
-//       throw error;
-//     }
-//   },
-  
-
-//   validatePassword: async (hashedPassword, password, salt) => {
-//     try {
-//       const { hashedPassword, salt } = await hashPassword(password);
-//       const isValid = await argon.verify(hashedPassword, password, { salt });
-//       return await argon.verify(hashedPassword, password);
-
-//     } catch (error) {
-//       console.error('Error validating password:', error);
-//       throw error;
-//     }
-//   },
-
-//   getCompany: async (companyId) => {
-//     try {
-//       const companyQuery = 'SELECT user_id, acl_array FROM companies WHERE company_id = $1';
-//       const companyResult = await pool.query(companyQuery, [companyId]);
-
-//       return companyResult.rows.length > 0 ? companyResult.rows[0] : null;
-//     } catch (error) {
-//       console.error('Error getting company:', error);
-//       throw error;
-//     }
-//   },
-
-//   login: async (req, res) => {
-//     const { email, password } = req.body;
-
-//     try {
-//       // Check if the email exists in the Users table
-//       const user = await authLogic.checkEmail(email);
-
-//       if (!user) {
-//         return res.status(401).json({ error: 'Invalid email or password' });
-//       }
-
-//       // Verify the provided password with the hashed password from the database
-//       const { hashedPassword, salt } = await hashPassword(password);
-//       const passwordMatch = await verifyPassword(password, hashedPassword, salt);
-//       //const passwordMatch = await authLogic.validatePassword(user.password, password);
-
-//       if (!passwordMatch) {
-//         return res.status(401).json({ error: 'Invalid email or password' });
-//       }
-
-//       // If passwords match, retrieve company ID from the Users table
-//       const companyId = user.company_id;
-
-//       // Retrieve user ID and ACL Array from the Companies table
-//       const company = await authLogic.getCompany(companyId);
-
-//       if (!company) {
-//         return res.status(500).json({ error: 'Company not found' });
-//       }
-
-//       const userId = company.user_id;
-//       const aclArray = company.acl_array;
-
-//       res.json({ success: true, companyId, userId, aclArray });
-//     } catch (error) {
-//       console.error('Error during login:', error);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//     }
-//   },
-// };
-
-// module.exports = authLogic;
-
