@@ -1,4 +1,8 @@
 const express = require('express');
+const nodemailer = require('nodemailer');
+
+
+
 const signupLogic = require('../../logics/v1/signupLogic.js');
 
 
@@ -33,7 +37,7 @@ const UserVerification = {
       }
     }
 
-    const otp = signupLogic.generateOTP(email);
+    const otp = await signupLogic.generateOTP(email);
     const mailOptions = {
       from: "sathish.spacy2001@gmail.com",
       to: email,

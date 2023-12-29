@@ -2,6 +2,7 @@ const express = require('express');
 const argon = require('argon2');
 const { pool } = require("../../config/dbConnection.js");
 const { v4: uuidv4 } = require('uuid');
+const { default: axios } = require('axios');
 
 
 const signupLogic = {
@@ -28,6 +29,10 @@ const signupLogic = {
             const client = await pool.connect();
             const result = await client.query('INSERT INTO users (email, password) VALUES ($1, $2)', [email, hashedPassword]);
             console.log('User created successfully:', result.rows);
+            return {email, hashedPassword};
+           
+
+            
         } catch (error) {
             console.error('Error creating user:', error);
             throw error;

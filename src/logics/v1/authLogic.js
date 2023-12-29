@@ -41,7 +41,6 @@ const authLogic = {
       const companyQuery = 'SELECT user_id, acl_array FROM companies WHERE company_id = $1';
       const companyResult = await pool.query(companyQuery, [companyId]);
       return companyResult.rows.length > 0 ? companyResult.rows[0] : null;
-
     } catch (error) {
       console.error('Error getting company:', error);
       throw error;
