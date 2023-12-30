@@ -29,7 +29,10 @@ const signupLogic = {
             const client = await pool.connect();
             const result = await client.query('INSERT INTO users (email, password) VALUES ($1, $2)', [email, hashedPassword]);
             console.log('User created successfully:', result.rows);
-            return {email, hashedPassword};
+            //return success status code
+            return res.status(200).json({message:"User Created Successfully"});
+            
+            // return {email, hashedPassword};
            
 
             

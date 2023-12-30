@@ -96,6 +96,9 @@ const UserVerification = {
       return undefined;
     }
   },
+  deleteOTP: (email) => {
+    otpverifyArray = otpverifyArray.filter((x) => x.Email !== email);
+  },
 };
 
 const MailToSend = (mailOptions) => {

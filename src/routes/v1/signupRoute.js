@@ -10,7 +10,6 @@ const signupRoute = express.Router();
 
 signupLogic.post('/checkuser', async (req, res) => {
     const {email, password} = req.body;
-
     try {
         const user = await authLogic.checkEmail(email);
         if (user) {
@@ -20,29 +19,62 @@ signupLogic.post('/checkuser', async (req, res) => {
             const validateUser = await axios.post('/validateuser', req.body );
 
             if(validateUser.status === 200) {
-                const sendOTP = '';
-                // send verification email to the newly created account
-                // let verifyLink = `http://localhost:3000/verify?id=${newUser.data._id}&token=${newUser
-                // .data.verificationToken}`;
-                // UserVerification.sendMail(email, "Account Verification", verifyLink);
-                // return res.status(201).json(newUser.data);
-                // }
-                //Route the user to login and auto login and redirect to dashboard
+                try {
+                    const sendotp = await UserVerification.sendOtpToUser(email);
+                    // 
+                    if (sendotp) {
+                        console.log("otp sent");
+                        return res.status(200).send("Please check your email for OTP");
+                    }
+                    else {
+                        throw new Error("Error in sending otp");
+                    }
+                }
+                catch (error) {
+                    console.log("Error in sending OTP : ", error);
+                }
+                
                 return res.status(200).json({ messagee: 'User Created Successfully'}).redirect(`${process.env.CLIENT_URL}/login`);
                 
             }
 
             return res.status(200).json({ message: 'User Does not Exists'});
-        }
+        }     
 
     }
     catch (error) {
         console.error('Error checking user:', error);
         return res.status(500).json({ error: 'Internal Server Error'})
     }
-})
+}) 
 
-
+signupLogic.post('/verifyotp', async (req, res) => {
+    const { otp , email } = req.body;
+    try{
+        const isValidOtp = await authLogic.isValidOtp(email, otp);
+        if(!isValidOtp){
+            throw new Error('Invalid OTP');
+            }
+        else {
+            // create user in the database
+            const createuser = await axios.post('/createuser');
+            if (createuser.status === 200) {
+                // let userData = await UserModel.createUser(req.body);
+                // delete the otp from the database to prevent misuse
+                await UserVerification.deleteOTP(email);
+                return res.status(201).json({message:"User Created Successfully"});
+            }
+            
+            return res.status(201).json(userData);
+            // const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '6h' });
+            // return res.status(200).json({ token, email });
+           }
+        }catch(err){
+                console.log(err);
+                return res.status(400).json({ err: err.message })
+            }
+        })
+  
 
 signupRoute.post('/createuser', async (req, res) => {
     const {email, password} = req.body;
