@@ -5,12 +5,14 @@ const loginRoute = express.Router();
 
 loginRoute.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    const { signupsuccess } = req.query;
 
     try {
+      
       // Check if the email exists in the Users table
       const user = await authLogic.checkEmail(email);
   
-      if (!user) {
+      if (!user && !signupsuccess) {
         return res.status(401).json({ error: 'User Not Found' });
       }
   
@@ -18,25 +20,25 @@ loginRoute.post('/login', async (req, res) => {
       const passwordMatch = await authLogic.validatePassword(user.password, password);
   
       if (!passwordMatch) {
-        return res.status(401).json({ error: 'Incorrect Email or ' });
+        return res.status(401).json({ error: 'Incorrect Email or Password' });
       }
   
-      // If passwords match, retrieve company ID from the Users table
-      const companyId = user.company_id;
-  
+      // If passwords match, retrieve userID from the Users table
+      const UserId = user.userID;
+      const company = user.companyID
       // Retrieve user ID and ACL Array from the Companies table
-      const company = await authLogic.getCompany(companyId);
+      //const company = await authLogic.getCompany(companyId);
   
       if (!company) {
         return res.status(500).json({ error: 'Company not found' });
       }
   
       const userId = company.user_id;
-      const aclArray = company.acl_array;
+      //const aclArray = company.acl_array;
   
-      res.json({ success: true, companyId, userId, aclArray });
+      res.status(200).json({ success: true, companyId, userId });
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Error during login:', error.message);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
