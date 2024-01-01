@@ -8,7 +8,7 @@ const { captureRejectionSymbol } = require('nodemailer/lib/xoauth2/index.js');
 const signupRoute = express.Router();
 
 
-signupLogic.post('/checkuser', async (req, res) => {
+signupRoute.post('/checkuser', async (req, res) => {
     const {email, password} = req.body;
     try {
         const user = await authLogic.checkEmail(email);
