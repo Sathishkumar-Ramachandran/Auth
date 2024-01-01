@@ -48,7 +48,7 @@ signupRoute.post('/checkuser', async (req, res) => {
     }
 }) 
 
-signupLogic.post('/verifyotp', async (req, res) => {
+signupRoute.post('/verifyotp', async (req, res) => {
     const { otp , email } = req.body;
     try{
         const isValidOtp = await authLogic.isValidOtp(email, otp);
