@@ -2,7 +2,7 @@ const { Client } = require('pg');
 const dbConfig = require('../../config/dbConnection.js');
 
 async function connectToDatabase() {
-  const client = new Client(dbConfig.pool());
+  const client = new Client(dbConfig.pool);
 
   try {
     await client.connect();
