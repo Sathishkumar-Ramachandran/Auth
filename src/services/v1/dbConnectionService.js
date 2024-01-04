@@ -5,7 +5,7 @@ async function connectToDatabase() {
   const client = new Client(dbConfig);
 
   try {
-    await client.connect();
+    await Client.connect();
     console.log('Auth DB Connection Estalished');
     return client;
   } catch (error) {
