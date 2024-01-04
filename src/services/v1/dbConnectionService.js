@@ -5,9 +5,15 @@ async function connectToDatabase() {
   const client = new Client(dbConfig);
 
   try {
-    await Client.connect();
-    console.log('Auth DB Connection Estalished');
-    return client;
+    const dbconnect = await client.connect();
+    if (dbconnect) {
+      console.log('Auth DB Connection Estalished');
+      return client;
+    }
+    else {
+      throw Error("Failed to Connect Database");
+    }
+    
   } catch (error) {
     console.error('Error connecting to the database:', error.message);
     throw error;
