@@ -35,7 +35,7 @@ const authLogic = {
       throw error;
     }
   },
-
+  
   getCompany: async (companyId) => {
     try {
       const companyQuery = 'SELECT user_id, acl_array FROM companies WHERE company_id = $1';
@@ -44,6 +44,17 @@ const authLogic = {
     } catch (error) {
       console.error('Error getting company:', error);
       throw error;
+    }
+  },
+  generatetoken: async (userId, companyId) => {
+    try {
+    const payload = { userId, companyId };
+    const options = { expiresIn: '6h' }; // Adjust the expiration time as needed
+    const secretKey = process.env.JWT_SECRET;
+    return jwt.sign(payload, secretKey, options);
+    }
+    catch (error) {
+      return res.status(200).json({ 'Error' : error.message });
     }
   },
 

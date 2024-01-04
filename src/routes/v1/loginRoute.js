@@ -6,12 +6,9 @@ const loginRoute = express.Router();
 loginRoute.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const { signupsuccess } = req.query;
-
     try {
-      
       // Check if the email exists in the Users table
       const user = await authLogic.checkEmail(email);
-  
       if (!user && !signupsuccess) {
         return res.status(401).json({ error: 'User Not Found' });
       }
@@ -22,7 +19,18 @@ loginRoute.post('/login', async (req, res) => {
       if (!passwordMatch) {
         return res.status(401).json({ error: 'Incorrect Email or Password' });
       }
-  
+      
+      else if (passwordMatch) {
+        try {
+          const token = authLogic.generatetoken();
+          if (token.status === 200) {
+            return res.status(200).send(token);
+        }
+      }
+      catch (error) {
+        return res.status(500).json({ 'Internal Server Error' : error.message});
+      }
+      }
       // If passwords match, retrieve userID from the Users table
       const UserId = user.userID;
       const company = user.companyID

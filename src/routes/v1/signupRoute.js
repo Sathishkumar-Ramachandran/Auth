@@ -8,7 +8,7 @@ const { captureRejectionSymbol } = require('nodemailer/lib/xoauth2/index.js');
 const signupRoute = express.Router();
 
 
-signupLogic.post('/checkuser', async (req, res) => {
+signupRoute.post('/checkuser', async (req, res) => {
     const {email, password} = req.body;
     try {
         const user = await authLogic.checkEmail(email);
@@ -48,7 +48,7 @@ signupLogic.post('/checkuser', async (req, res) => {
     }
 }) 
 
-signupLogic.post('/verifyotp', async (req, res) => {
+signupRoute.post('/verifyotp', async (req, res) => {
     const { otp , email } = req.body;
     try{
         const isValidOtp = await authLogic.isValidOtp(email, otp);
