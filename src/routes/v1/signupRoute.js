@@ -1,7 +1,7 @@
 const express = require('express');
-const authLogic = require('../../logics/v1/authLogic.js');
-const signupLogic = require('../../logics/v1/signupLogic.js');
-const UserVerification = require('../../logics/v1/smtpService.js');
+const authLogic = require('../../logics/v1/authLogic.js').default;
+const signupLogic = require('../../logics/v1/signupLogic.js').default;
+const UserVerification = require('../../logics/v1/smtpService.js').default;
 const { default: axios } = require('axios');
 const { captureRejectionSymbol } = require('nodemailer/lib/xoauth2/index.js');
 

@@ -1,15 +1,15 @@
-const express = require('express');
-const argon = require('argon2');
-const { pool } = require("../../config/dbConnection.js");
-const { v4: uuidv4 } = require('uuid');
-const { default: axios } = require('axios');
+import express from 'express';
+import { generateSalt, hash } from 'argon2';
+import { pool } from "../../config/dbConnection.js";
+import { v4 as uuidv4 } from 'uuid';
+import { default as axios } from 'axios';
 
 
 const signupLogic = {
     hashPassword: async (password) => {
         try {
-            const salt = await argon.generateSalt();
-            const hashedPassword = await argon.hash(password, { salt });
+            const salt = await generateSalt();
+            const hashedPassword = await hash(password, { salt });
             return { hashedPassword, salt };
         }
         catch (error) {
@@ -44,4 +44,4 @@ const signupLogic = {
     },
 
 }
-module.exports = signupLogic;
+export default signupLogic;

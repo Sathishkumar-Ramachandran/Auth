@@ -1,16 +1,16 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
+import express from 'express';
+import { createTransport } from 'nodemailer';
 
 
 
-const signupLogic = require('../../logics/v1/signupLogic.js');
+import signupLogic from '../../logics/v1/signupLogic.js';
 
 
 
 let otpverifyArray = [];
 
 
-const transporter = nodemailer.createTransport({
+const transporter = createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false, // true for 465, false for other ports
@@ -37,7 +37,7 @@ const UserVerification = {
       }
     }
 
-    const otp = await signupLogic.generateOTP(email);
+    const otp = signupLogic.generateOTP(email);
     const mailOptions = {
       from: "sathish.spacy2001@gmail.com",
       to: email,
@@ -116,4 +116,4 @@ const MailToSend = (mailOptions) => {
 };
 
 
-module.exports = UserVerification;
+export default UserVerification;

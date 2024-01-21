@@ -1,5 +1,5 @@
-const { pool } = require("../../config/dbConnection.js");
-const argon2 = require('argon2');
+import { pool } from "../../config/dbConnection.js";
+import { generateSalt, hash, verify } from 'argon2';
 
 const authLogic = {
   checkEmail: async (email) => {
@@ -17,8 +17,8 @@ const authLogic = {
 
   hashPassword: async (password) => {
     try {
-      const salt = await argon2.generateSalt();
-      const hashedPassword = await argon2.hash(password, { salt });
+      const salt = await generateSalt();
+      const hashedPassword = await hash(password, { salt });
       return { hashedPassword, salt };
     } catch (error) {
       console.error(`Error hashing password ${error}`);
@@ -28,7 +28,7 @@ const authLogic = {
 
   validatePassword: async (hashedPassword, password, salt) => {
     try {
-      const isValid = await argon2.verify(hashedPassword, password, { salt });
+      const isValid = await verify(hashedPassword, password, { salt });
       return isValid;
     } catch (error) {
       console.error('Error validating password:', error);
@@ -97,4 +97,4 @@ const authLogic = {
   },
 };
 
-module.exports = authLogic;
+export default authLogic;

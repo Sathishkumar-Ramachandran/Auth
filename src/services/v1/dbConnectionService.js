@@ -1,12 +1,11 @@
-const { Client } = require('pg');
-const dbConfig = require('../../config/dbConnection.js');
+import { Client } from 'pg';
+import { pool } from '../../config/dbConnection.js';
 
 async function connectToDatabase() {
-  const client = new Client(dbConfig.pool);
+  const client = new Client(pool);
 
   try {
     await client.connect();
-    
       console.log('Auth DB Connection Estalished');
       return client;
    
@@ -17,4 +16,4 @@ async function connectToDatabase() {
   }
 }
 
-module.exports = connectToDatabase;
+export default connectToDatabase;

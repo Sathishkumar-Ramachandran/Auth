@@ -1,7 +1,7 @@
-const express = require('express');
-const authLogic = require('../../logics/v1/authLogic.js');
+import { Router } from 'express';
+import authLogic from '../../logics/v1/authLogic.js';
 
-const loginRoute = express.Router();
+const loginRoute = Router();
 
 loginRoute.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -51,4 +51,4 @@ loginRoute.post('/login', async (req, res) => {
     }
   });
   
-  module.exports = loginRoute;
+  export default loginRoute;
