@@ -23,8 +23,8 @@ app.use(BodyParser.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-app.use("/api/v1/auth/", authRoutes);
-app.use("/api/v1/signup/", signupRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/signup", signupRoutes);
 
 connectToDatabase()
     .then((client) => {
