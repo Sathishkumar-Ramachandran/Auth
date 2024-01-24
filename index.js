@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 10001;
 
 
 //v1 Imports
-const authRoutes = require('./src/routes/v1/loginRoute.js').default;
-const connectToDatabase = require('./src/services/v1/dbConnectionService.js').default;
+const authRoutes = require('./src/routes/v1/loginRoute.js');
+const connectToDatabase = require('./src/services/v1/dbConnectionService.js');
 const signupRoutes = require('./src/routes/v1/signupRoute.js');
 
 
