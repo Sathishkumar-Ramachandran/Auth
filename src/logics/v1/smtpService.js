@@ -1,9 +1,7 @@
-import express from 'express';
-import { createTransport } from 'nodemailer';
+const express = require('express');
+const { createTransport } = require('nodemailer');
+const { signupLogic } = require('../../logics/v1/signupLogic.js');
 
-
-
-import signupLogic from '../../logics/v1/signupLogic.js';
 
 
 
@@ -115,5 +113,4 @@ const MailToSend = (mailOptions) => {
   });
 };
 
-
-export default UserVerification;
+module.exports = UserVerification;

@@ -1,8 +1,10 @@
-import express from 'express';
-import { generateSalt, hash } from 'argon2';
-import { pool } from "../../config/dbConnection.js";
-import { v4 as uuidv4 } from 'uuid';
-import { default as axios } from 'axios';
+const express = require('express');
+const { generateSalt, hash} = require('argon2');
+const { pool } = require('../../config/dbConnection.js');
+const uuidv4 = require('uuid');
+const axios = require('axios');
+
+
 
 
 const signupLogic = {
@@ -23,7 +25,7 @@ const signupLogic = {
     },
     
     createUser: async (email, hashedPassword) => {
-        const userId = uuidv4();
+        const userId = uuidv4().v4();
         try {
             // Example: Insert user into a PostgreSQL database
             const client = await pool.connect();
@@ -44,4 +46,6 @@ const signupLogic = {
     },
 
 }
-export default signupLogic;
+
+
+module.exports = signupLogic;

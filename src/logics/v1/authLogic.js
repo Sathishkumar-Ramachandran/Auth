@@ -1,5 +1,5 @@
-import { pool } from "../../config/dbConnection.js";
-import { generateSalt, hash, verify } from 'argon2';
+const { pool } = require('../../config/dbConnection.js');
+const { generateSalt, hash, verify } = require('argon2');
 
 const authLogic = {
   checkEmail: async (email) => {
@@ -97,4 +97,4 @@ const authLogic = {
   },
 };
 
-export default authLogic;
+module.exports = authLogic;
