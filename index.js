@@ -28,7 +28,7 @@ app.use("/api/v1/signup", signupRoutes);
 
 connectToDatabase()
     .then((client) => {
-        const db = client.db('auth');
+       // const db = client.db('auth');
         app.listen(PORT, () => {
             console.log(`Auth API is running on ${PORT}`);
         });
