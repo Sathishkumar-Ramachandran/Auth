@@ -4,7 +4,7 @@ const { authLogic, login } = require('../../logics/v1/authLogic.js');
 
 const loginRoute = express.Router();
 
-loginRoute.post('/login', authenticate ,async (req, res) => {
+loginRoute.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const { signupsuccess } = req.query;
     try {
