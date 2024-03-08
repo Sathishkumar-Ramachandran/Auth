@@ -1,5 +1,5 @@
 const express = require('express');
-const authLogic = require('../../logics/v1/authLogic.js').default;
+const authLogic = require('../../logics/v1/authLogic.js');
 const signupLogic = require('../../logics/v1/signupLogic.js');
 const UserVerification = require('../../logics/v1/smtpService.js');
 const { default: axios } = require('axios');
@@ -61,7 +61,7 @@ signupRoute.post('/verifyotp', async (req, res) => {
             if (createuser.status === 200) {
                 // let userData = await UserModel.createUser(req.body);
                 // delete the otp from the database to prevent misuse
-                await UserVerification.deleteOTP(email);
+                UserVerification.deleteOTP(email);
                 return res.status(201).json({message:"User Created Successfully"});
             }
             
