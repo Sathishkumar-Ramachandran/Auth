@@ -1,6 +1,7 @@
 //import { pool } from '../../config/dbConnection.js';
 const { pool } = require('../../config/dbConnection.js')
-import { hash, verify } from 'argon2';
+const { hash, verify} = require('argon2');
+//import { hash, verify } from 'argon2';
 
 const authLogic = {
   checkEmail: async (email) => {
