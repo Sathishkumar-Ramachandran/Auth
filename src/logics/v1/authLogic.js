@@ -1,4 +1,5 @@
-import { pool } from '../../config/dbConnection.js';
+//import { pool } from '../../config/dbConnection.js';
+const { pool } = require('../../config/dbConnection.js')
 import { hash, verify } from 'argon2';
 
 const authLogic = {
