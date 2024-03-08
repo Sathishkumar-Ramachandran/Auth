@@ -6,8 +6,8 @@ async function connectToDatabase() {
   const client = new Client({
     user: process.env.DB_USER || 'postgres',
     host: process.env.DB_HOST || 'localhost',
-    database: process.env.DaB_DATABASE || 'auth',
-    password: process.env.DB_PASSWORD || 'Shivani@2001',
+    database: process.env.DaB_DATABASE || 'users',
+    password: process.env.DB_PASSWORD || 'Sathish@2001',
     port: process.env.DB_PORT || 5432,
     max: 20, // maximum number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
