@@ -100,4 +100,4 @@ const authLogic = {
   },
 };
 
-export default authLogic;
+module.exports = authLogic;
