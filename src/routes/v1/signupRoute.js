@@ -1,5 +1,5 @@
 const express = require('express');
-const authLogic = require('../../logics/v1/authLogic.js');
+const authLogic = require('../../logics/v1/authLogic.js').default;
 const signupLogic = require('../../logics/v1/signupLogic.js');
 const UserVerification = require('../../logics/v1/smtpService.js');
 const { default: axios } = require('axios');

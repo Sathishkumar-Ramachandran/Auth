@@ -1,5 +1,5 @@
-const { pool } = require('../../config/dbConnection.js');
-const { generateSalt, hash, verify } = require('argon2');
+import { pool } from '../../config/dbConnection.js';
+import { hash, verify } from 'argon2';
 
 const authLogic = {
   checkEmail: async (email) => {
@@ -17,18 +17,19 @@ const authLogic = {
 
   hashPassword: async (password) => {
     try {
-      const salt = await generateSalt();
-      const hashedPassword = await hash(password, { salt });
-      return { hashedPassword, salt };
+     // const salt = await generateSalt();
+    //  const hashedPassword = await hash(password, { salt });
+      const hashedPassword = await hash(password);
+      return hashedPassword;
     } catch (error) {
       console.error(`Error hashing password ${error}`);
       throw error;
     }
   },
 
-  validatePassword: async (hashedPassword, password, salt) => {
+  validatePassword: async (hashedPassword, password) => {
     try {
-      const isValid = await verify(hashedPassword, password, { salt });
+      const isValid = await verify(hashedPassword, password);
       return isValid;
     } catch (error) {
       console.error('Error validating password:', error);
@@ -70,7 +71,7 @@ const authLogic = {
       }
 
       // Verify the provided password with the hashed password from the database
-      const passwordMatch = await authLogic.validatePassword(user.password, password, user.salt);
+      const passwordMatch = await authLogic.validatePassword(user.password, password);
 
       if (!passwordMatch) {
         return res.status(401).json({ error: 'Invalid email or password' });
@@ -97,4 +98,4 @@ const authLogic = {
   },
 };
 
-module.exports = authLogic;
+export default authLogic;

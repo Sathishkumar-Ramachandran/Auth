@@ -1,6 +1,6 @@
 const express = require('express');
 const { authenticate } = require('../../logics/v1/authMiddleware.js')
-const { authLogic, login } = require('../../logics/v1/authLogic.js');
+const { authLogic, login } = require('../../logics/v1/authLogic.js').default;
 
 const loginRoute = express.Router();
 
